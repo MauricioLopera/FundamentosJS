@@ -10,4 +10,6 @@ const onResponse = function (data){
 }
 
 //request con jquery
-$.get(URL_completa, opst, onResponse);
+$.get(URL_completa, opst, onResponse).fail(()=> {
+    alert(`Ha ocurrido un error de red, verifica tu conexion`);
+});
