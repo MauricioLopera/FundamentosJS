@@ -20,6 +20,7 @@ body {
     width: 50%;
     height: 50%;
     display: inline-block;
+    cursor: pointer;
   }
 
   .left {
@@ -31,35 +32,35 @@ body {
   }
 
   .celeste {
-    background: #03a9f4;
+    background: #29b6f6;
   }
 
   .celeste.light {
-    background: #81d4fa;
+    background: #0288d1;
   }
 
   .violeta {
-    background: #9c27b0;
+    background: #ba68c8;
   }
 
   .violeta.light {
-    background: #e1bee7;
+    background: #9c27b0;
   }
 
   .naranja {
-    background: #ff9800;
+    background: #ffb74d;
   }
 
   .naranja.light {
-    background: #ffe0b2;
+    background: #ff9800;
   }
 
   .verde {
-    background: #4caf50;
+    background: #81c784;
   }
 
   .verde.light {
-    background: #c8e6c9;
+    background: #4caf50;
   }
 
   .btn-start {
