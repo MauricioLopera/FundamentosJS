@@ -4,7 +4,12 @@ const naranja = document.getElementById('naranja');
 const verde = document.getElementById('verde');
 const btnEmpezar = document.getElementById('btnEmpezar');
 const counter = document.getElementById('counter');
-const ultimoNivel = 10;
+const resultado = document.getElementById('resultado');
+const facil = document.getElementById('5');
+const normal = document.getElementById('10');
+const dificil = document.getElementById('15');
+const nivel = document.getElementById('nivel');
+let ultimoNivel;
 
 class Juego {
     constructor() {
@@ -17,6 +22,7 @@ class Juego {
 
     inicializar() {
         this.siguienteNivel = this.siguienteNivel.bind(this);
+        this.elegirColor = this.elegirColor.bind(this)
         btnEmpezar.classList.add('hide');
         counter.classList.add('show');
         this.cuentaRegresiva();
@@ -41,7 +47,8 @@ class Juego {
             counter.innerHTML = i;        
         },1000);
         setTimeout(()=>{
-            counter.style.display='none';    
+            counter.classList.remove('show');
+            counter.classList.add('hide');    
         },1500);
     }
 
@@ -51,6 +58,7 @@ class Juego {
 
     siguienteNivel(){
         this.subnivel = 0;
+        nivel.innerHTML=`Nivel ${this.nivel} de ${ultimoNivel}`;
         this.ejecutarSecuencia();
         this.agregarEventoClick();
     }
@@ -103,17 +111,17 @@ class Juego {
 
     agregarEventoClick(){
         //utilizamos bind para que la referencia del this al objeto Juego no cambia al boton clicado
-        this.colores.celeste.addEventListener('click', this.elegirColor.bind(this))
-        this.colores.violeta.addEventListener('click', this.elegirColor.bind(this))
-        this.colores.naranja.addEventListener('click', this.elegirColor.bind(this))
-        this.colores.verde.addEventListener('click', this.elegirColor.bind(this))
+        this.colores.celeste.addEventListener('click', this.elegirColor)
+        this.colores.violeta.addEventListener('click', this.elegirColor)
+        this.colores.naranja.addEventListener('click', this.elegirColor)
+        this.colores.verde.addEventListener('click', this.elegirColor)
     }
 
     eliminarEventoClick(){
-        this.colores.celeste.removeEventListener('click', this.elegirColor.bind(this))
-        this.colores.violeta.removeEventListener('click', this.elegirColor.bind(this))
-        this.colores.naranja.removeEventListener('click', this.elegirColor.bind(this))
-        this.colores.verde.removeEventListener('click', this.elegirColor.bind(this))
+        this.colores.celeste.removeEventListener('click', this.elegirColor)
+        this.colores.violeta.removeEventListener('click', this.elegirColor)
+        this.colores.naranja.removeEventListener('click', this.elegirColor)
+        this.colores.verde.removeEventListener('click', this.elegirColor)
         
     }
 
@@ -122,6 +130,8 @@ class Juego {
         const numeroColor = this.obtenerNumeroColor(nombreColor);
         this.iluminarColor(nombreColor);
         //validamos si la seleccion del usuario coincide con la del juego
+        console.log(this.secuencia)
+        console.log(this.subnivel)
         if(numeroColor === this.secuencia[this.subnivel]){
             this.subnivel++;
             if(this.subnivel === this.nivel){
@@ -129,16 +139,69 @@ class Juego {
                 this.eliminarEventoClick();
                 if(this.nivel === ultimoNivel + 1){
                     //gano
+                    this.resultadoJuego(1);
                 }else{
                    setTimeout(this.siguienteNivel, 500);
                 }
             }
         }else{
             //perdio
+            this.resultadoJuego(0);
         }
+    }
+
+    resultadoJuego(res){
+        //valido el resultado
+        if(res===1){
+            resultado.innerHTML='¡Ganaste!';
+            resultado.classList.add('show');
+        }else{
+            resultado.innerHTML='Fallaste :(';
+            resultado.classList.add('show');
+        }
+
+        //reinicio el juego
+        setTimeout(() => {
+            nivel.innerHTML='Hola, elije la dificultad';
+            facil.classList.remove('nivelSeleccionado');
+            normal.classList.remove('nivelSeleccionado');
+            dificil.classList.remove('nivelSeleccionado');
+            btnEmpezar.style.cursor='default';
+            btnEmpezar.style.opacity=0.4;
+            btnEmpezar.removeEventListener('click', empezarJuego);
+            resultado.classList.remove('show');
+            btnEmpezar.classList.remove('hide');
+        },3000)
     }
 }
 
 function empezarJuego() {
     window.juego = new Juego()
+}
+
+function dificultad(valor) {
+    ultimoNivel = valor;
+
+    //valido el nivel para pintar el boton
+    if(ultimoNivel === 5){
+        facil.classList.add('nivelSeleccionado');
+        normal.classList.remove('nivelSeleccionado');
+        dificil.classList.remove('nivelSeleccionado');
+    }else if(ultimoNivel === 10){
+        normal.classList.add('nivelSeleccionado');
+        facil.classList.remove('nivelSeleccionado');
+        dificil.classList.remove('nivelSeleccionado');
+    }else{
+        dificil.classList.add('nivelSeleccionado');
+        normal.classList.remove('nivelSeleccionado');
+        facil.classList.remove('nivelSeleccionado');
+    }
+
+    //activo boton empezar juego
+    btnEmpezar.style.cursor='pointer';
+    btnEmpezar.style.opacity=1;
+    btnEmpezar.addEventListener('click', empezarJuego);
+
+    //cambio texto por nivel
+    nivel.innerHTML=`Nivel 1 de ${ultimoNivel}`;
 }

@@ -5,7 +5,29 @@ body {
     align-items: center;
     height: 100vh;
   }
-
+  *{
+    font-family: 'Nunito', sans-serif;
+  }
+  header{
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    text-align: center;
+  }
+  .niveles{
+    background: #000000;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+    margin: 3px;
+    padding: 5px 10px;
+  }
+  .nivelSeleccionado{
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+  }
   .gameboard {
     height: 100vh;
     width: 100vh;
@@ -72,13 +94,10 @@ body {
     position: absolute;
     top: calc(50% - 50px);
     left: calc(50% - 200px);
-    cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.4;
     border: none;
   }
-  .btn-start:hover{
-      opacity: 1;
-  }
+  
   h1{
     width: 400px;
     height: 100px;
